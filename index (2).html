@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taxival - Transporte del Futuro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            perspective: 1000px;
+        }
+
+        .card {
+            background: linear-gradient(180deg, #d4d4d4 0%, #b8b8e0 50%, #8b7ec8 100%);
+            border-radius: 40px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Header con logo y mascota */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-size: 48px;
+            font-weight: 300;
+            color: #000;
+            letter-spacing: -2px;
+            font-family: 'Georgia', serif;
+            font-style: italic;
+        }
+
+        .logo-subscript {
+            font-size: 24px;
+            vertical-align: sub;
+        }
+
+        .mascot {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #87ceeb, #4db8e8);
+            border-radius: 20px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .mascot::before {
+            content: '🐆';
+            font-size: 60px;
+            filter: hue-rotate(180deg) brightness(1.2);
+        }
+
+        .gear {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 40px;
+            height: 40px;
+            background: #ffd700;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            animation: rotate 4s linear infinite;
+        }
+
+        .gear::before {
+            content: '⚙️';
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Sección del dispositivo */
+        .device-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 60px 0;
+            position: relative;
+        }
+
+        .smartphone {
+            width: 200px;
+            height: 400px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%);
+            border-radius: 30px;
+            border: 8px solid #1a1a2e;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            z-index: 2;
+            margin-bottom: -80px;
+        }
+
+        .screen {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #667eea 0%, #f093fb 25%, #f5576c 50%, #feca57 75%, #48dbfb 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .screen::before {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #ff6b6b 0%, #ee5a6f 100%);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 30px rgba(255, 107, 107, 0.6);
+        }
+
+        .screen::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 120px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.3), transparent);
+            border-radius: 50%;
+            top: 20%;
+            left: 20%;
+            transform: rotate(-20deg);
+        }
+
+        .notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 25px;
+            background: #1a1a2e;
+            border-radius: 0 0 20px 20px;
+        }
+
+        /* Vehículo */
+        .vehicle {
+            width: 280px;
+            height: 140px;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 50%, #5d6d7e 100%);
+            border-radius: 20px 20px 50px 50px;
+            position: relative;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            z-index: 1;
+        }
+
+        .vehicle::before {
+            content: '';
+            position: absolute;
+            top: 20%;
+            left: 10%;
+            width: 80%;
+            height: 40%;
+            background: linear-gradient(135deg, rgba(100, 149, 237, 0.4), rgba(65, 105, 225, 0.6));
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+        }
+
+        .headlight {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            width: 60px;
+            height: 8px;
+            background: linear-gradient(90deg, transparent, #fff, #00ffff);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+        }
+
+        .headlight-right {
+            left: auto;
+            right: 20px;
+        }
+
+        .windshield {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70%;
+            height: 35px;
+            background: rgba(100, 149, 237, 0.3);
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+        }
+
+        .windshield::before {
+            content: 'TAXIVAL';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 10px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        /* Botón de interacción */
+        .action-button {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 80px;
+            background: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .action-button:hover {
+            transform: translateX(-50%) scale(1.1);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .action-button::before {
+            content: '▶';
+            font-size: 30px;
+            color: #000;
+            margin-left: 5px;
+        }
+
+        /* Efectos decorativos */
+        .glow-effect {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .glow-1 {
+            top: -50px;
+            left: -50px;
+        }
+
+        .glow-2 {
+            bottom: -50px;
+            right: -50px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .card {
+                padding: 30px 20px;
+                border-radius: 30px;
+            }
+
+            .logo {
+                font-size: 36px;
+            }
+
+            .mascot {
+                width: 90px;
+                height: 90px;
+            }
+
+            .mascot::before {
+                font-size: 45px;
+            }
+
+            .smartphone {
+                width: 160px;
+                height: 320px;
+            }
+
+            .vehicle {
+                width: 220px;
+                height: 110px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .logo {
+                font-size: 28px;
+            }
+
+            .mascot {
+                width: 70px;
+                height: 70px;
+            }
+
+            .smartphone {
+                width: 140px;
+                height: 280px;
+            }
+
+            .vehicle {
+                width: 200px;
+                height: 100px;
+            }
+        }
+
+        /* Animaciones adicionales */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .smartphone {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+
+        .headlight {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* Accesibilidad */
+        .action-button:focus {
+            outline: 3px solid #667eea;
+            outline-offset: 3px;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <!-- Efectos de brillo -->
+            <div class="glow-effect glow-1"></div>
+            <div class="glow-effect glow-2"></div>
+
+            <!-- Header -->
+            <header class="header">
+                <h1 class="logo">
+                    taxi<span class="logo-subscript">val</span>
+                </h1>
+                <div class="mascot">
+                    <div class="gear"></div>
+                </div>
+            </header>
+
+            <!-- Sección del dispositivo y vehículo -->
+            <div class="device-section">
+                <div class="smartphone">
+                    <div class="notch"></div>
+                    <div class="screen"></div>
+                </div>
+                <div class="vehicle">
+                    <div class="windshield"></div>
+                    <div class="headlight"></div>
+                    <div class="headlight headlight-right"></div>
+                </div>
+            </div>
+
+            <!-- Botón de acción -->
+            <button class="action-button" aria-label="Iniciar experiencia Taxival">
+                <span class="sr-only">Comenzar</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Interactividad del botón
+        const actionButton = document.querySelector('.action-button');
+        
+        actionButton.addEventListener('click', () => {
+            alert('¡Bienvenido a Taxival! 🚗');
+        });
+
+        // Efecto parallax sutil con el mouse
+        const card = document.querySelector('.card');
+        
+        document.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = (y - centerY) / 20;
+            const rotateY = (centerX - x) / 20;
+            
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taxival - Verificación</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(180deg, #0d47fd 0%, #0d47fd 50%, #b8b8b8 100%);
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 420px;
+            background: linear-gradient(180deg, #0d47fd 0%, #0d47fd 55%, #d4d4d4 100%);
+            border-radius: 40px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Header con logo */
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        .logo-text {
+            font-size: 42px;
+            font-weight: 300;
+            color: #000;
+            letter-spacing: 1px;
+        }
+
+        .logo-icon {
+            width: 80px;
+            height: 80px;
+            position: relative;
+        }
+
+        /* Ilustración SVG del leopardo */
+        .leopard-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Ilustración central */
+        .illustration {
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto 40px;
+            position: relative;
+            height: 280px;
+        }
+
+        .security-shield {
+            position: absolute;
+            width: 180px;
+            height: 200px;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 20px;
+        }
+
+        .shield-bg {
+            width: 100%;
+            height: 100%;
+            background: rgba(200, 220, 255, 0.4);
+            border-radius: 20px;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .shield-icon {
+            position: absolute;
+            width: 100px;
+            height: 110px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #a0c8ff 0%, #6fa3ff 100%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            border: 4px solid #4a7cc9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lock-icon {
+            width: 35px;
+            height: 45px;
+            position: relative;
+        }
+
+        .lock-body {
+            width: 35px;
+            height: 28px;
+            background: #3d5a96;
+            border-radius: 4px;
+            position: absolute;
+            bottom: 0;
+        }
+
+        .lock-shackle {
+            width: 22px;
+            height: 18px;
+            border: 4px solid #3d5a96;
+            border-bottom: none;
+            border-radius: 11px 11px 0 0;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .lock-keyhole {
+            width: 6px;
+            height: 10px;
+            background: #5c7ab8;
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 3px 3px 0 0;
+        }
+
+        /* Iconos flotantes */
+        .floating-icon {
+            position: absolute;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: #4a7cc9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .icon-at { top: 20px; left: 30px; animation-delay: 0s; }
+        .icon-dollar { top: 15px; left: 90px; animation-delay: 0.5s; }
+        .icon-search { top: 25px; right: 60px; animation-delay: 1s; }
+        .icon-cloud { top: 30px; right: 20px; animation-delay: 1.5s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Persona con laptop */
+        .person {
+            position: absolute;
+            bottom: 0;
+            left: 20px;
+            width: 90px;
+            height: 140px;
+        }
+
+        .person-body {
+            width: 50px;
+            height: 60px;
+            background: #1a1a1a;
+            border-radius: 25px 25px 0 0;
+            position: absolute;
+            bottom: 40px;
+            left: 20px;
+        }
+
+        .person-head {
+            width: 35px;
+            height: 40px;
+            background: #6fa3ff;
+            border-radius: 50%;
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .person-legs {
+            width: 60px;
+            height: 40px;
+            background: #4a7cc9;
+            position: absolute;
+            bottom: 0;
+            left: 15px;
+            border-radius: 0 0 10px 10px;
+        }
+
+        .laptop {
+            width: 45px;
+            height: 35px;
+            background: #8cb3e8;
+            position: absolute;
+            bottom: 55px;
+            left: 45px;
+            border-radius: 3px;
+            transform: rotate(-10deg);
+        }
+
+        /* Sección de verificación */
+        .verification-section {
+            background: rgba(212, 212, 212, 0.3);
+            border-radius: 20px;
+            padding: 30px 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .verification-title {
+            text-align: center;
+            font-size: 22px;
+            font-weight: 400;
+            color: #1a1a1a;
+            margin-bottom: 25px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Campos de código PIN */
+        .pin-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .pin-input {
+            width: 60px;
+            height: 60px;
+            border: 3px solid #1a1a1a;
+            border-radius: 50%;
+            background: transparent;
+            font-size: 28px;
+            text-align: center;
+            font-weight: bold;
+            color: #1a1a1a;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .pin-input:focus {
+            border-color: #0d47fd;
+            background: rgba(255, 255, 255, 0.5);
+            transform: scale(1.05);
+        }
+
+        .pin-input.filled {
+            background: rgba(13, 71, 253, 0.1);
+            border-color: #0d47fd;
+        }
+
+        /* Teclado numérico opcional */
+        .numpad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .num-btn {
+            background: rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            padding: 15px;
+            font-size: 24px;
+            font-weight: 600;
+            color: #1a1a1a;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .num-btn:active {
+            transform: scale(0.95);
+            background: rgba(13, 71, 253, 0.2);
+        }
+
+        .num-btn.delete {
+            background: rgba(255, 100, 100, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+                border-radius: 30px;
+            }
+
+            .logo-text {
+                font-size: 36px;
+            }
+
+            .logo-icon {
+                width: 60px;
+                height: 60px;
+            }
+
+            .pin-input {
+                width: 55px;
+                height: 55px;
+                font-size: 24px;
+            }
+
+            .illustration {
+                height: 240px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .pin-input {
+                width: 50px;
+                height: 50px;
+                font-size: 22px;
+            }
+
+            .pin-container {
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header con logo -->
+        <div class="header">
+            <h1 class="logo-text">taxival</h1>
+            <div class="logo-icon">
+                <!-- SVG del leopardo con engranaje -->
+                <svg class="leopard-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Cuerpo del leopardo -->
+                    <ellipse cx="50" cy="60" rx="35" ry="25" fill="#a0d8ff" stroke="#333" stroke-width="2"/>
+                    <!-- Manchas -->
+                    <ellipse cx="35" cy="55" rx="5" ry="7" fill="#333"/>
+                    <ellipse cx="45" cy="65" rx="4" ry="6" fill="#333"/>
+                    <ellipse cx="60" cy="58" rx="5" ry="6" fill="#333"/>
+                    <ellipse cx="55" cy="70" rx="4" ry="5" fill="#333"/>
+                    <ellipse cx="38" cy="68" rx="3" ry="5" fill="#333"/>
+                    <!-- Cabeza -->
+                    <ellipse cx="30" cy="35" rx="15" ry="18" fill="#a0d8ff" stroke="#333" stroke-width="2"/>
+                    <!-- Orejas -->
+                    <ellipse cx="22" cy="25" rx="6" ry="8" fill="#a0d8ff" stroke="#333" stroke-width="1.5"/>
+                    <ellipse cx="38" cy="23" rx="6" ry="8" fill="#a0d8ff" stroke="#333" stroke-width="1.5"/>
+                    <!-- Ojos -->
+                    <circle cx="26" cy="35" r="3" fill="#333"/>
+                    <circle cx="35" cy="35" r="3" fill="#333"/>
+                    <!-- Nariz -->
+                    <polygon points="30,40 28,43 32,43" fill="#333"/>
+                    <!-- Engranaje -->
+                    <g transform="translate(70, 25)">
+                        <circle cx="0" cy="0" r="12" fill="#ffd700" stroke="#333" stroke-width="1.5"/>
+                        <circle cx="0" cy="0" r="6" fill="none" stroke="#333" stroke-width="2"/>
+                        <!-- Dientes del engranaje -->
+                        <rect x="-2" y="-14" width="4" height="4" fill="#ffd700" stroke="#333" stroke-width="1"/>
+                        <rect x="-2" y="10" width="4" height="4" fill="#ffd700" stroke="#333" stroke-width="1"/>
+                        <rect x="-14" y="-2" width="4" height="4" fill="#ffd700" stroke="#333" stroke-width="1"/>
+                        <rect x="10" y="-2" width="4" height="4" fill="#ffd700" stroke="#333" stroke-width="1"/>
+                    </g>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Ilustración central -->
+        <div class="illustration">
+            <!-- Escudo de seguridad -->
+            <div class="security-shield">
+                <div class="shield-bg">
+                    <div class="shield-icon">
+                        <div class="lock-icon">
+                            <div class="lock-shackle"></div>
+                            <div class="lock-body"></div>
+                            <div class="lock-keyhole"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Iconos flotantes -->
+            <div class="floating-icon icon-at">@</div>
+            <div class="floating-icon icon-dollar">$</div>
+            <div class="floating-icon icon-search">🔍</div>
+            <div class="floating-icon icon-cloud">☁</div>
+
+            <!-- Persona con laptop -->
+            <div class="person">
+                <div class="person-body">
+                    <div class="person-head"></div>
+                </div>
+                <div class="person-legs"></div>
+                <div class="laptop"></div>
+            </div>
+        </div>
+
+        <!-- Sección de verificación -->
+        <div class="verification-section">
+            <h2 class="verification-title">codigo de verificación</h2>
+            
+            <!-- Campos PIN -->
+            <div class="pin-container">
+                <input type="text" maxlength="1" class="pin-input" id="pin1" inputmode="numeric" pattern="[0-9]">
+                <input type="text" maxlength="1" class="pin-input" id="pin2" inputmode="numeric" pattern="[0-9]">
+                <input type="text" maxlength="1" class="pin-input" id="pin3" inputmode="numeric" pattern="[0-9]">
+                <input type="text" maxlength="1" class="pin-input" id="pin4" inputmode="numeric" pattern="[0-9]">
+            </div>
+
+            <!-- Teclado numérico -->
+            <div class="numpad">
+                <button class="num-btn" data-num="1">1</button>
+                <button class="num-btn" data-num="2">2</button>
+                <button class="num-btn" data-num="3">3</button>
+                <button class="num-btn" data-num="4">4</button>
+                <button class="num-btn" data-num="5">5</button>
+                <button class="num-btn" data-num="6">6</button>
+                <button class="num-btn" data-num="7">7</button>
+                <button class="num-btn" data-num="8">8</button>
+                <button class="num-btn" data-num="9">9</button>
+                <button class="num-btn delete" data-action="delete">←</button>
+                <button class="num-btn" data-num="0">0</button>
+                <button class="num-btn" data-action="submit">✓</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Manejo de inputs PIN
+        const pinInputs = document.querySelectorAll('.pin-input');
+        const numButtons = document.querySelectorAll('.num-btn');
+        let currentIndex = 0;
+
+        // Auto-focus en el primer input
+        pinInputs[0].focus();
+
+        // Navegación entre inputs
+        pinInputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                const value = e.target.value;
+                
+                // Solo permitir números
+                if (!/^\d$/.test(value)) {
+                    e.target.value = '';
+                    return;
+                }
+
+                // Agregar clase de llenado
+                if (value) {
+                    input.classList.add('filled');
+                    // Mover al siguiente input
+                    if (index < pinInputs.length - 1) {
+                        pinInputs[index + 1].focus();
+                        currentIndex = index + 1;
+                    } else {
+                        // Todos los campos llenos
+                        validatePin();
+                    }
+                } else {
+                    input.classList.remove('filled');
+                }
+            });
+
+            // Manejo de tecla backspace
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                    pinInputs[index - 1].focus();
+                    currentIndex = index - 1;
+                }
+            });
+
+            // Actualizar índice actual al hacer click
+            input.addEventListener('focus', () => {
+                currentIndex = index;
+            });
+        });
+
+        // Funcionalidad del teclado numérico
+        numButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const num = btn.getAttribute('data-num');
+                const action = btn.getAttribute('data-action');
+
+                if (num) {
+                    // Insertar número en el campo actual
+                    if (currentIndex < pinInputs.length) {
+                        pinInputs[currentIndex].value = num;
+                        pinInputs[currentIndex].classList.add('filled');
+                        
+                        // Mover al siguiente
+                        if (currentIndex < pinInputs.length - 1) {
+                            currentIndex++;
+                            pinInputs[currentIndex].focus();
+                        } else {
+                            validatePin();
+                        }
+                    }
+                } else if (action === 'delete') {
+                    // Borrar el campo actual
+                    if (pinInputs[currentIndex].value) {
+                        pinInputs[currentIndex].value = '';
+                        pinInputs[currentIndex].classList.remove('filled');
+                    } else if (currentIndex > 0) {
+                        currentIndex--;
+                        pinInputs[currentIndex].value = '';
+                        pinInputs[currentIndex].classList.remove('filled');
+                        pinInputs[currentIndex].focus();
+                    }
+                } else if (action === 'submit') {
+                    validatePin();
+                }
+            });
+        });
+
+        // Validar PIN
+        function validatePin() {
+            const pin = Array.from(pinInputs).map(input => input.value).join('');
+            
+            if (pin.length === 4) {
+                console.log('PIN ingresado:', pin);
+                // Aquí iría la lógica de validación
+                alert(`Código de verificación: ${pin}`);
+            }
+        }
+
+        // Prevenir paste de texto no numérico
+        pinInputs.forEach(input => {
+            input.addEventListener('paste', (e) => {
+                e.preventDefault();
+                const pastedData = e.clipboardData.getData('text');
+                const numbers = pastedData.replace(/\D/g, '').slice(0, 4);
+                
+                numbers.split('').forEach((num, idx) => {
+                    if (idx < pinInputs.length) {
+                        pinInputs[idx].value = num;
+                        pinInputs[idx].classList.add('filled');
+                    }
+                });
+                
+                currentIndex = Math.min(numbers.length, pinInputs.length - 1);
+                pinInputs[currentIndex].focus();
+            });
+        });
+    </script>
+</body>
+</html>
